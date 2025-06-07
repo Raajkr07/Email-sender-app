@@ -40,12 +40,10 @@ object MailSender {
 
                 val multipart = MimeMultipart()
 
-                // Body part
                 val bodyPart = MimeBodyPart()
                 bodyPart.setContent(bodyHtml, "text/html; charset=utf-8")
                 multipart.addBodyPart(bodyPart)
 
-                // Attachments
                 for (file in attachments) {
                     val attachPart = MimeBodyPart()
                     val source = FileDataSource(file)

@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import java.io.File
-import com.example.emailsenderapp.FileUtils
 
 class MainActivity : AppCompatActivity() {
 
@@ -49,9 +48,13 @@ class MainActivity : AppCompatActivity() {
         val subject = subjectField.text.toString()
         val bodyHtml = bodyField.text.toString()
 
-        // App password highly recommended (never real password)
-        val fromEmail = "Enter your email here"
-        val appPassword = "enter your google app password here"
+        val fromEmail = "rk8210032@gmail.com"
+        val appPassword = "xftwgyobhuxmnjjd" // No spaces
+
+        if (to.isBlank() || subject.isBlank() || bodyHtml.isBlank()) {
+            Toast.makeText(this, "Please fill all fields.", Toast.LENGTH_SHORT).show()
+            return
+        }
 
         lifecycleScope.launch {
             val result = MailSender.sendEmail(
@@ -68,7 +71,8 @@ class MainActivity : AppCompatActivity() {
                     Toast.makeText(this@MainActivity, it, Toast.LENGTH_LONG).show()
                 },
                 onFailure = {
-                    Toast.makeText(this@MainActivity, "Error: ${it.message}", Toast.LENGTH_LONG).show()
+                    Toast.makeText(this@MainActivity, "Error: ${it.localizedMessage}", Toast.LENGTH_LONG).show()
+                    it.printStackTrace()
                 }
             )
         }
@@ -107,7 +111,6 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
-
 
     private fun saveDraft(subject: String, body: String) {
         val prefs = getSharedPreferences("draft", MODE_PRIVATE)

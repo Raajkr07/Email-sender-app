@@ -8,7 +8,7 @@ import java.io.*
 
 object FileUtils {
     fun getPath(context: Context, uri: Uri): String? {
-        try {
+        return try {
             val fileName = getFileName(context, uri)
             val file = File(context.cacheDir, fileName ?: return null)
             val inputStream = context.contentResolver.openInputStream(uri) ?: return null
@@ -24,10 +24,10 @@ object FileUtils {
             outputStream.close()
             inputStream.close()
 
-            return file.path
+            file.path
         } catch (e: Exception) {
             e.printStackTrace()
-            return null
+            null
         }
     }
 
